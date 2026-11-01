@@ -1,0 +1,149 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_1",
+        "zone_name": "Central Business District",
+        "category": "Commercial",
+        "base_population": 85000,
+        "priority_level": 3,
+        "critical_facilities": 14,
+        "pipeline_capacity_kL": 12000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.585, 12.965],
+            [77.615, 12.965],
+            [77.615, 12.985],
+            [77.585, 12.985],
+            [77.585, 12.965]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_2",
+        "zone_name": "North Residential Suburbs",
+        "category": "Residential",
+        "base_population": 140000,
+        "priority_level": 2,
+        "critical_facilities": 6,
+        "pipeline_capacity_kL": 15000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.575, 12.985],
+            [77.615, 12.985],
+            [77.615, 13.015],
+            [77.575, 13.015],
+            [77.575, 12.985]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_3",
+        "zone_name": "East Tech & Industrial Park",
+        "category": "Industrial",
+        "base_population": 65000,
+        "priority_level": 2,
+        "critical_facilities": 9,
+        "pipeline_capacity_kL": 18000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.615, 12.960],
+            [77.655, 12.960],
+            [77.655, 12.995],
+            [77.615, 12.995],
+            [77.615, 12.960]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_4",
+        "zone_name": "South Medical & University Campus",
+        "category": "Institutional",
+        "base_population": 95000,
+        "priority_level": 5,
+        "critical_facilities": 22,
+        "pipeline_capacity_kL": 14000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.580, 12.930],
+            [77.620, 12.930],
+            [77.620, 12.965],
+            [77.580, 12.965],
+            [77.580, 12.930]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_5",
+        "zone_name": "West Heritage & Eco-Reserve",
+        "category": "Mixed/Residential",
+        "base_population": 72000,
+        "priority_level": 3,
+        "critical_facilities": 5,
+        "pipeline_capacity_kL": 10000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.545, 12.950],
+            [77.585, 12.950],
+            [77.585, 12.980],
+            [77.545, 12.980],
+            [77.545, 12.950]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone_id": "ZONE_6",
+        "zone_name": "Northeast High-Rise Enclave",
+        "category": "Residential",
+        "base_population": 115000,
+        "priority_level": 4,
+        "critical_facilities": 8,
+        "pipeline_capacity_kL": 13500
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.615, 12.995],
+            [77.660, 12.995],
+            [77.660, 13.025],
+            [77.615, 13.025],
+            [77.615, 12.995]
+          ]
+        ]
+      }
+    }
+  ]
+}

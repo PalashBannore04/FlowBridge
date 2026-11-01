@@ -1,0 +1,552 @@
+/* FlowBridge Editorial SCADA Design System */
+/* Authentic Human-Crafted Municipal Civil Engineering Interface */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* --- DESIGN SYSTEM TOKENS (8px Spacing Scale, Intentional Radii, Bespoke Typography) --- */
+:root {
+  /* Typography Tokens */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Spacing Scale (8px Grid) */
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Corner Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Transitions */
+  --ease-human: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-quick: 180ms;
+  --duration-normal: 240ms;
+
+  /* DEFAULT THEME TOKENS: Pastel Light SCADA Mode */
+  --bg-app: #F7F8FC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F1F3FB;
+  --bg-surface-subtle: #F6F7FD;
+
+  --border-subtle: #E4E7F4;
+  --border-strong: #CBD2EB;
+  --border-active: #6366F1;
+
+  --text-primary: #1E2238;
+  --text-secondary: #505770;
+  --text-muted: #7E86A2;
+  --text-accent: #5B61EB;
+
+  --brand-primary: #5B61EB;
+  --brand-tint: rgba(91, 97, 235, 0.08);
+  --brand-gold: #D97706;
+
+  --status-good: #059669;
+  --status-good-bg: #E6F7F0;
+  --status-warn: #D97706;
+  --status-warn-bg: #FEF3C7;
+  --status-crit: #E11D48;
+  --status-crit-bg: #FFE4E6;
+
+  --shadow-card: 0 2px 10px rgba(30, 34, 56, 0.04), 0 1px 3px rgba(30, 34, 56, 0.02);
+  --shadow-elevated: 0 12px 28px -4px rgba(30, 34, 56, 0.08), 0 4px 10px -2px rgba(30, 34, 56, 0.03);
+}
+
+/* Purplish-Black Dark Theme Variables */
+body[data-theme="dark"], .dark-theme, [data-theme="dark"] {
+  --bg-app: #0B0813;
+  --bg-surface: #140F24;
+  --bg-surface-elevated: #1D1635;
+  --bg-surface-subtle: #110D1F;
+
+  --border-subtle: #271D45;
+  --border-strong: #443372;
+  --border-active: #A855F7;
+
+  --text-primary: #F5F3FF;
+  --text-secondary: #C4B5FD;
+  --text-muted: #8C7FA8;
+  --text-accent: #C084FC;
+
+  --brand-primary: #9333EA;
+  --brand-tint: rgba(147, 51, 234, 0.18);
+  --brand-gold: #F59E0B;
+
+  --status-good: #34D399;
+  --status-good-bg: rgba(52, 211, 153, 0.14);
+  --status-warn: #FBBF24;
+  --status-warn-bg: rgba(251, 191, 36, 0.14);
+  --status-crit: #FB7185;
+  --status-crit-bg: rgba(251, 113, 133, 0.16);
+
+  --shadow-card: 0 4px 20px rgba(5, 3, 10, 0.65), 0 0 1px rgba(168, 85, 247, 0.25);
+  --shadow-elevated: 0 14px 36px -4px rgba(4, 2, 9, 0.85), 0 0 20px rgba(147, 51, 234, 0.20);
+}
+
+/* Global Typography & Resets */
+html, body, [class*="css"] {
+  font-family: var(--font-body) !important;
+  color: var(--text-primary);
+}
+
+/* Streamlit Header & View Container Resets */
+header[data-testid="stHeader"],
+[data-testid="stHeader"],
+.stAppHeader {
+  background-color: var(--bg-app) !important;
+  background: var(--bg-app) !important;
+  color: var(--text-primary) !important;
+}
+
+div[data-testid="stDecoration"] {
+  display: none !important;
+  background-color: transparent !important;
+}
+
+div[data-testid="stAppViewContainer"],
+.main,
+[data-testid="stMain"] {
+  background-color: var(--bg-app) !important;
+}
+
+header[data-testid="stHeader"] svg,
+[data-testid="stHeader"] button,
+[data-testid="stHeader"] span {
+  color: var(--text-secondary) !important;
+  fill: var(--text-secondary) !important;
+}
+
+.block-container {
+  padding-top: 1.5rem !important;
+  background-color: transparent !important;
+}
+
+/* --- MOTION & STAGGERED ENTRANCE REVEAL --- */
+@keyframes editorialReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseBeacon {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.reveal-step-1 { animation: editorialReveal 0.55s var(--ease-human) 0.05s backwards; }
+.reveal-step-2 { animation: editorialReveal 0.55s var(--ease-human) 0.15s backwards; }
+.reveal-step-3 { animation: editorialReveal 0.55s var(--ease-human) 0.25s backwards; }
+.reveal-step-4 { animation: editorialReveal 0.55s var(--ease-human) 0.35s backwards; }
+
+/* --- TOP SCADA OPERATIONAL RIBBON --- */
+.scada-top-ribbon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  margin-bottom: var(--space-16);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+  font-size: 0.82rem;
+  transition: border-color var(--duration-quick) var(--ease-human);
+}
+
+.scada-top-ribbon:hover {
+  border-color: var(--border-strong);
+}
+
+.live-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--status-good);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+}
+
+.beacon-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--status-good);
+  border-radius: 50%;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+/* --- ASYMMETRIC EDITORIAL HERO SECTION --- */
+.hero-editorial-section {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: var(--space-24);
+  align-items: stretch;
+  margin-bottom: var(--space-24);
+}
+
+@media (max-width: 992px) {
+  .hero-editorial-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-editorial-dossier {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-left: 5px solid var(--brand-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32) var(--space-32) var(--space-24) var(--space-32);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-authority-kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  margin-bottom: var(--space-16);
+  font-family: var(--font-mono);
+}
+
+.hero-display-headline {
+  font-family: var(--font-display) !important;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-16) 0;
+}
+
+.hero-lede-text {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-24) 0;
+  font-weight: 400;
+}
+
+.hero-specs-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.hero-spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.hero-spec-pill strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Hero Telemetry Ledger (Asymmetric Overlapping Right Card) */
+.hero-telemetry-ledger {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--duration-normal) var(--ease-human), border-color var(--duration-normal) var(--ease-human);
+}
+
+.hero-telemetry-ledger:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.ledger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-16);
+}
+
+.ledger-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.ledger-badge {
+  background: var(--brand-tint);
+  color: var(--text-accent);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.70rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border-subtle);
+}
+
+.ledger-metrics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.ledger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ledger-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.ledger-val {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ledger-bar-container {
+  margin-top: var(--space-16);
+  padding: var(--space-16);
+  background-color: var(--bg-surface-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.ledger-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.ledger-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--border-subtle);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ledger-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-primary), var(--status-good));
+  border-radius: 3px;
+  transition: width 0.6s var(--ease-human);
+}
+
+/* --- SCADA ENGINEERING KPI GRID (Asymmetric 5-Column Ledger) --- */
+.kpi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+.kpi-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-16) var(--space-16);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--duration-quick) var(--ease-human), border-color var(--duration-quick) var(--ease-human), box-shadow var(--duration-quick) var(--ease-human);
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-elevated);
+}
+
+.kpi-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: var(--space-8);
+  font-weight: 700;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.kpi-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+  line-height: 1.15;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-subtext {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* --- DISTRICT SCADA FEED CARDS --- */
+.zone-feed-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--duration-quick) var(--ease-human), border-color var(--duration-quick) var(--ease-human);
+}
+
+.zone-feed-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.zone-card-title {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.zone-card-metrics {
+  font-size: 0.80rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  margin: 4px 0;
+}
+
+.zone-card-footer {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Status Chips with Authentic Editorial Borders */
+.badge-adequate {
+  background: var(--status-good-bg);
+  color: var(--status-good);
+  border: 1px solid var(--status-good);
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.badge-warning {
+  background: var(--status-warn-bg);
+  color: var(--status-warn);
+  border: 1px solid var(--status-warn);
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.badge-critical {
+  background: var(--status-crit-bg);
+  color: var(--status-crit);
+  border: 1px solid var(--status-crit);
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+/* --- TABS SYSTEM --- */
+.stTabs [data-baseweb="tab-list"] {
+  gap: var(--space-8);
+  padding: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-24);
+}
+
+.stTabs [data-baseweb="tab"] {
+  border-radius: var(--radius-sm);
+  padding: 8px 18px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all var(--duration-quick) var(--ease-human);
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-surface-subtle);
+}
+
+.stTabs [aria-selected="true"] {
+  background-color: var(--bg-surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-strong) !important;
+}
+
+/* Section Headings */
+h1, h2, h3 {
+  font-family: var(--font-display) !important;
+  letter-spacing: -0.015em !important;
+  color: var(--text-primary) !important;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-body) !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Dataframe & Tables */
+div[data-testid="stDataFrame"] {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
